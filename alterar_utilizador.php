@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="UTF-8">
     <title>Alterar Utilizadores</title>
     <link rel="stylesheet" type="text/css" href="style-2.css">
 </head>
-
 <body>
     <div id="menu">
         <?php include('menu.php'); ?>
@@ -33,9 +31,7 @@
                 die("Erro na consulta: " . mysqli_error($ligacao));
             }
 
-        ?>
-            <!-- Formulário de seleção -->
-            <table class="user-table">
+            echo '<table class="user-table">
                 <tr>
                     <th>Selecionar Usuário</th>
                     <th>Ação</th>
@@ -44,21 +40,18 @@
                     <form method="GET" action="alterar_utilizador.php">
                         <td>
                             <label for="id_utilizador">Selecione o usuário:</label>
-                            <select name="id_utilizador" id="id_utilizador">
-                                <?php
-                                while ($row = mysqli_fetch_assoc($consulta)) {
-                                    echo "<option value='{$row['id_utilizador']}'>{$row['nome_utilizador']}</option>";
-                                }
-                                ?>
-                            </select>
+                            <select name="id_utilizador" id="id_utilizador">';
+                            while ($row = mysqli_fetch_assoc($consulta)) {
+                                echo "<option value='{$row['id_utilizador']}'>{$row['nome_utilizador']}</option>";
+                            }
+            echo           '</select>
                         </td>
                         <td>
                             <input type="submit" value="Selecionar">
                         </td>
                     </form>
                 </tr>
-            </table>
-        <?php
+            </table>';
         } else {
             // Caso contrário, mostrar o formulário de alteração
             $id = intval($_GET['id_utilizador']);
@@ -73,33 +66,31 @@
 
             if ($usuario) {
                 echo '<table class="user-table">
-                <tr>
-                    <th>Nome de Utilizador</th>
-                    <th>Email</th>
-                    <th>Ação</th>
-                </tr>
-                <tr>
-                    <form method="POST" action="processar_alterar.php">
-                        <td>
-                            <input type="hidden" name="id_utilizador" value="' . $usuario['id_utilizador'] . '">
-                            <input type="text" name="nome" value="' . $usuario['nome_utilizador'] . '">
-                        </td>
-                        <td>
-                            <input type="text" name="email" value="' . $usuario['email'] . '">
-                        </td>
-                        <td>
-                            <input type="submit" name="alterar" value="Alterar">
-                        </td>
-                    </form>
-                </tr>
-            </table>';
+                    <tr>
+                        <th>Nome de Utilizador</th>
+                        <th>Email</th>
+                        <th>Ação</th>
+                    </tr>
+                    <tr>
+                        <form method="POST" action="processar_alterar.php">
+                            <td>
+                                <input type="hidden" name="id_utilizador" value="' . $usuario['id_utilizador'] . '">
+                                <input type="text" name="nome" value="' . $usuario['nome_utilizador'] . '">
+                            </td>
+                            <td>
+                                <input type="text" name="email" value="' . $usuario['email'] . '">
+                            </td>
+                            <td>
+                                <input type="submit" name="alterar" value="Alterar">
+                            </td>
+                        </form>
+                    </tr>
+                </table>';
             } else {
                 echo "Usuário não encontrado.";
             }
         }
         ?>
-
     </div>
 </body>
-
 </html>
